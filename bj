@@ -1,0 +1,66 @@
+import random
+from art import logo
+from replit import clear
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+play = input("Do you want to play a game of BlackJack? Type 'yes' or 'no': ")
+
+
+def slot():
+  slo = random.randint(0,12)
+  return cards[slo]
+def blackjack():
+  usercards = []
+  computercards = []
+  comptotal = 0
+  if play == "yes":
+    clear()
+    print(logo)
+    usercard_one = slot()
+    usercards.append(usercard_one) 
+    usercard_two = slot()
+    usercards.append(usercard_two)
+    computer_one = slot()
+    computercards.append(computer_one)
+    comptotal += computer_one
+    current_score = usercard_one + usercard_two
+    print(f"  Your cards: {usercards}, current score: {current_score}")
+    print(f"  Computer's first card: {computer_one}")
+    draws = True
+    while draws:
+      draw = input("Type 'y' to draw another card or 'n' to pass: ")
+      if draw == "y":
+        usercards_unk = slot()
+        usercards.append(usercards_unk)
+        current_score += usercards_unk
+        print(f"  Your cards: {usercards}, current score: {current_score}")
+        print(f"  Computer's first card: {computer_one}")
+        if current_score > 21:
+          draws = False
+          print(f"  Your final hand: {usercards}, final score: {current_score}")
+        
+      else:
+        draws = False
+        print(f"  Your final hand: {usercards}, final score: {current_score}")
+    
+    while comptotal < 17:
+      computer_unk = slot()
+      computercards.append(computer_unk)
+      comptotal += computer_unk
+    print(f"  Computer's final hand: {computercards}, final score: {comptotal}")
+    if current_score > 21:
+      print("You went over. You lose")
+    elif comptotal > 21:
+      print("Opponent went over. You win ")
+    elif current_score > comptotal:
+      print("You win!")
+    elif current_score < comptotal:
+      print("You lose")
+    else:
+      print("Draw")
+    play_again = input("Do you want to play again? Type 'yes' or 'no': ")
+    if play_again == "yes":
+      blackjack()
+    
+  
+blackjack()
